@@ -1,0 +1,38 @@
+{
+  "name": "formation-devops",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "readme": "pandoc README.md -f gfm -t pdf -s -o README.pdf",
+    "dev:dev": "slidev slides/formation-dev.md",
+    "dev:prod": "slidev slides/formation-prod.md",
+    "build:dev": "slidev build slides/formation-dev.md --out dist/formation-dev",
+    "build:prod": "slidev build slides/formation-prod.md --out dist/formation-prod",
+    "export:dev": "slidev export slides/formation-dev.md --output pdf/formation-dev.pdf",
+    "export:prod": "slidev export slides/formation-prod.md --output pdf/formation-prod.pdf",
+    "dev": "echo 'Usage: pnpm dev:{ dev | prod }'",
+    "build": "pnpm build:dev && pnpm build:prod",
+    "export": "echo 'Usage: pnpm export:{ dev | prod }'",
+    "lint": "pnpm lint:js && pnpm lint:md",
+    "lint:js": "eslint .",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#.github\""
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.4.0",
+    "@slidev/theme-default": "latest",
+    "@slidev/theme-seriph": "latest",
+    "mermaid": "^11.12.1",
+    "slidev-theme-the-unnamed": "^0.0.22",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "^10.5.1",
+    "markdownlint-cli2": "^0.18.1",
+    "mermaid": "^11.12.1",
+    "playwright-chromium": "^1.42.0",
+    "vue-eslint-parser": "^10.2.0"
+  }
+}
