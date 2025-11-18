@@ -1,22 +1,50 @@
-name: CI
+name: Exercise 3 - Docker Build and Push
+
+# This workflow builds a Docker image and pushes it to GitHub Container Registry
+# It only runs on push to main branch (not on PRs)
 
 on:
   push:
+    branches: [main]
 
 jobs:
-  test:
+  docker:
     runs-on: ubuntu-latest
+
+    # Required permissions for pushing to GHCR
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v4
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup Node.json
-        uses: actions/setup-node@v4
+      # Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          node-version: '20'
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm CI
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify files exist
-        run: npm test
-       
+      # Extract metadata for Docker
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,prefix={{branch}}-
+            type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      # Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
