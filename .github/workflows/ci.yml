@@ -4,14 +4,19 @@ on:
   push:
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Node.json
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm CI
+
       - name: Verify files exist
-        run: |
-          test -f package.json
-          echo "| package.json found"
+        run: npm test
        

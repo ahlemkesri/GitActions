@@ -3,6 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "test": "node --test",
     "readme": "pandoc README.md -f gfm -t pdf -s -o README.pdf",
     "dev:dev": "slidev slides/formation-dev.md",
     "dev:prod": "slidev slides/formation-prod.md",
