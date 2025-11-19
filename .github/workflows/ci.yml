@@ -25,7 +25,7 @@ jobs:
 
       # Standard Node.js workdflow...
       - name: Install dependencies
-        run: npm ci  # Uses Artifactory for downloads
+        run: npm i  # Uses Artifactory for downloads
       - name: Build
         run: npm run build
       - name: Test
