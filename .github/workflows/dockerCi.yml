@@ -1,4 +1,4 @@
-name: Exercise 3 - Docker Build and Push
+name: Exercise 3 - Docker Build and push registry
 
 on:
   push:
