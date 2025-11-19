@@ -23,7 +23,7 @@ jobs:
       - name: Setup npm registry
         run: |
           echo "registry=https://trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/" > .npmrc
-          echo "//trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" > .npmrc
+          echo "//trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> .npmrc
 
       # Extract metadata for Docker
       - name: Install dependecies
@@ -36,4 +36,4 @@ jobs:
 
       - name: publish package
         if: github.ref == 'refs/heads/main'
-        run: npm publish
+        run: npm publish --registry https://trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/
