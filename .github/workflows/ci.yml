@@ -15,25 +15,21 @@ jobs:
       packages: write
 
     steps:
-      # Checkout the repository code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Login to GitHub Container Registry
+      # Login to Artifactory npm registry
       - name: Setup npm registry
         run: |
           echo "registry=https://trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/" > .npmrc
-          echo "//trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> .npmrc
+          echo "//trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/:_authToken=${{ secrets.ARTIFACTORY_TOKEN }}" >> .npmrc    
 
-      # Extract metadata for Docker
-      - name: Install dependecies
-        run: npm install
-
-      - name: Build 
+      # Standard Node.js workdflow...
+      - name: Install dependencies
+        run: npm ci  # Uses Artifactory for downloads
+      - name: Build
         run: npm run build
-      - name: test
+      - name: Test
         run: npm test
-
-      - name: publish package
+      - name: Publish package
         if: github.ref == 'refs/heads/main'
         run: npm publish --registry https://trialsga2025.jfrog.io/artifactory/api/npm/sga-npm/
